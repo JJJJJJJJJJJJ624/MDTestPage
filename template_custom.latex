@@ -1,0 +1,178 @@
+\documentclass[
+  12pt,
+  a4paper,
+  oneside,
+]{article}
+
+% ---------------- パッケージ ----------------
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{xparse}
+\usepackage{pgffor}
+\usepackage{xstring}
+\usepackage{etoolbox}
+\usepackage{pgfmath}
+\usepackage{microtype}
+\usepackage{xeCJK}
+\usepackage{xfp}
+\usepackage{float}
+\usepackage{ltablex}
+\usepackage{makecell}
+\keepXColumns
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listingsutf8}  % UTF-8対応（不要なら削除可）
+\usepackage{lastpage}  % 総ページ数取得用
+
+% ---------------- 書式 ----------------
+\geometry{margin=20mm}
+\setmainfont{Segoe UI}
+\setCJKmainfont{Yu Gothic UI}
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip = 0em plus 0.1em minus 0.01em
+% ページ番号リンクの色設定：赤枠ではなく青文字にする
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+\pagestyle{fancy}
+\fancyhf{} % 初期化
+\fancyfoot[R]{\thepage\ / \pageref*{LastPage}} % 右下に「X / 総ページ数」
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt} % フッター線表示
+
+% ---------------- 表 ----------------
+% 表（longtable/tabular）前後に余白を追加
+\AtBeginEnvironment{longtable}{\vspace{1em}} % 表の前
+\AfterEndEnvironment{longtable}{\vspace{1em}} % 表の後
+\AtBeginEnvironment{tabular}{\vspace{1em}}   % 通常の表の前
+\AfterEndEnvironment{tabular}{\vspace{1em}}  % 通常の表の後
+
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{4pt}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+\renewcommand{\cellalign}{tl}  % makecell を左寄せに変更
+
+% ---------------- セクション ----------------
+\newcommand{\secTitleWithLine}[1]{%
+  #1\\[-0.8em]
+  \noindent{\color{gray!50}\rule{\dimexpr\textwidth-1.5em}{0.4pt}}%
+}
+\titleformat{\section}
+  [hang]
+  {\Large\bfseries}
+  {\thesection}
+  {1em}
+  {\secTitleWithLine}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% ---------------- 画像マクロ ----------------
+\newcommand{\SingleImage}[1]{%
+  \begingroup
+  \par\noindent\centering
+  \includegraphics[
+    width=0.8\linewidth,
+    height=0.4\textheight,
+    keepaspectratio
+  ]{#1}
+  \par\vspace{1em}
+  \endgroup
+}
+\newcommand{\InsertImageRow}[1]{%
+  \begingroup
+  \newcount\imgcount
+  \imgcount=0
+  \foreach \x in {#1} { \advance\imgcount by 1 }
+  \noindent\centering
+  \foreach \x [count=\i from 1] in {#1} {%
+    \ifnum\imgcount=1
+      \includegraphics[
+        width=0.95\textwidth,
+        height=0.8\textheight,
+        keepaspectratio
+      ]{\x}%
+    \else
+      \ifnum\imgcount=2 \def\imgwidth{0.47\textwidth}%
+      \else\ifnum\imgcount=3 \def\imgwidth{0.31\textwidth}%
+      \else\ifnum\imgcount=4 \def\imgwidth{0.23\textwidth}%
+      \else               \def\imgwidth{0.19\textwidth}%
+      \fi\fi\fi
+      \includegraphics[
+        width=\imgwidth,
+        height=0.5\textheight,
+        keepaspectratio
+      ]{\x}%
+    \fi
+    \ifnum\i<\imgcount\hspace{0.02\linewidth}\fi
+  }%
+  \par\vspace{1em}
+  \endgroup
+}
+
+% ------------------ コードブロック風スタイル ------------------
+% コマンド例やコードスニペットを見やすく表示するための設定。
+% 背景色付きの枠で囲み、等幅フォント（\ttfamily）を使って明確に区別。
+
+
+\tcbuselibrary{listingsutf8}
+
+% 「コードブロック風」マクロの定義
+\newtcolorbox{CodeBlockBox}{
+  colback=gray!10,       % 背景色（明るい灰色）
+  colframe=gray!60,      % 枠線色（やや濃い灰色）
+  boxrule=0.3mm,         % 枠線の太さ
+  arc=1mm,               % 角の丸み
+  left=1mm, right=1mm,   % 左右の内側余白
+  top=0.5mm, bottom=0.5mm, % 上下の内側余白
+  fontupper=\ttfamily,   % 中のテキストを等幅フォントに（コードらしさを出す）
+  enhanced,              % 見た目の改善を有効にする
+  breakable              % 複数行に渡っても枠が壊れないようにする
+}
+
+% ---------------- Pandoc マクロ補完 ----------------
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
+
+% ---------------- 本文 ----------------
+\begin{document}
+\raggedbottom
+$if(title)$
+\begin{center}
+  {\huge\bfseries $title$} \par
+  $if(subtitle)$
+    \vspace{0.5em}
+    {\Large\itshape $subtitle$} \par
+  $endif$
+  $if(author)$
+    \vspace{1em}
+    {\large $for(author)$$author$$sep$ \and $endfor$} \par
+  $endif$
+  $if(date)$
+    {\normalsize $date$} \par
+  $endif$
+  \vspace{0.5em}
+  {\color{gray!70}\rule{\textwidth}{0.5pt}}\\[-0.7em]
+  {\color{gray!70}\rule{\textwidth}{0.5pt}}
+\end{center}
+\vspace{1em}
+$endif$
+
+$body$
+
+\end{document}

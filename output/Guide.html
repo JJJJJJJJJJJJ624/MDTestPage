@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="XXXXXX" />
+  <title>Markdown文書作成ガイドライン（PDF出力対応）</title>
+  <style>
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style>
+
+body {
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+Helvetica, Arial, sans-serif;
+font-size: 16px;
+line-height: 1.5;
+margin: 0 auto;
+padding: 2rem;
+max-width: 800px;
+background: #fff;
+color: #1f2328;
+}
+img, table, pre {
+max-width: 100%;
+break-inside: avoid;
+}
+p, ul, ol, blockquote, pre, table {
+margin: 0 0 1em;
+}
+blockquote {
+padding-left: 1em;
+border-left: 0.25em solid #d0d7de;
+color: #6e7781;
+}
+code, pre {
+font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+background: #f6f8fa;
+color: #1f2328;
+padding: 0.2em 0.4em;
+border-radius: 6px;
+}
+hr {
+border: none;
+border-top: 1px solid #d0d7de;
+}
+details {
+margin-bottom: 1em;
+}
+summary {
+cursor: pointer;
+font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6 {
+font-weight: 600;
+line-height: 1.25;
+margin: 1.5em 0 0.5em;
+color: #1f2328;
+}
+h1 {
+position: relative;
+padding-bottom: 0.3em;
+margin-bottom: 0.8em;
+}
+h1::after {
+content: "";
+display: block;
+width: 100%;
+height: 0.6px;
+margin-top: 0.4em;
+background: #d0d7de;
+}
+header h1.title::after {
+display: none !important;
+}
+
+header p.date {
+position: relative;
+padding-bottom: 0.8em;
+margin-bottom: 1.5em;
+text-align: center;
+}
+header p.date::before,
+header p.date::after {
+content: "";
+position: absolute;
+left: 0; right: 0;
+height: 2px;
+background: #d0d7de;
+}
+header p.date::before {
+bottom: 0.4em;
+}
+header p.date::after {
+bottom: 0;
+}
+
+table {
+border-collapse: collapse;
+width: 100%;
+margin: 0 auto;
+}
+th, td {
+border: 1px solid #d0d7de;
+padding: 0.4em 0.6em;
+}
+
+img.macro-singleimage {
+display: block;
+margin: 1em auto;
+width: 80% !important;
+max-height: 40vh !important;
+object-fit: contain;
+}
+.macro-insertimagerow {
+display: flex;
+gap: 0.5em;
+justify-content: center !important;
+margin: 1.2em 0;
+}
+.macro-insertimagerow img {
+max-width: 100%;
+height: auto;
+}
+
+@media print {
+@page {
+size: A4 portrait;
+margin: 20mm 15mm 25mm 15mm;
+}
+body {
+font-family: "Noto Sans JP", sans-serif;
+font-size: 11pt;
+line-height: 1.4;
+color: #000;
+background: #fff !important;
+padding: 0;
+max-width: 100%;
+}
+h1, h2 {
+break-before: auto;
+}
+img, table, pre,
+.macro-insertimagerow,
+img.macro-singleimage {
+break-inside: avoid;
+}
+table {
+border-collapse: collapse;
+width: 100%;
+}
+details:not([open]) > *:not(summary) {
+display: block !important;
+}
+nav, .md-sidebar, button {
+display: none !important;
+}
+
+pre {
+display: block !important;
+color: #000 !important;
+background: #f0f0f0 !important;
+font-family: "Courier New", Courier, monospace !important;
+font-size: 10pt !important;
+border: 1px solid #ccc;
+padding: 0.6em;
+white-space: pre-wrap;
+page-break-inside: avoid;
+}
+pre code {
+all: unset;
+}
+
+
+}
+</style>
+    
+    <script>
+      // 印刷時に details を展開
+      function openAllDetails() {
+        document.querySelectorAll('details')
+          .forEach(d => d.setAttribute('open', ''));
+      }
+    
+      window.addEventListener('beforeprint', openAllDetails);
+      if (matchMedia('print').matches) openAllDetails();
+    
+      // 自動的に連続画像を .macro-insertimagerow に変換
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('p').forEach(p => {
+          const imgs = [...p.children].filter(n => n.tagName === 'IMG');
+          if (imgs.length < 2) return;
+          if ([...p.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())) return;
+    
+          const wrapper = document.createElement('div');
+          wrapper.classList.add('macro-insertimagerow');
+    
+          const align = imgs[0].getAttribute('data-align')
+            || imgs[0].getAttribute('align')
+            || (imgs[0].classList.contains('center') && 'img-center')
+            || (imgs[0].classList.contains('right') && 'img-right')
+            || 'img-left';
+    
+          wrapper.classList.add(align);
+          imgs.forEach(img => wrapper.appendChild(img));
+          p.replaceWith(wrapper);
+        });
+      });
+    </script>
+    
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Markdown文書作成ガイドライン（PDF出力対応）</h1>
+<p class="author">XXXXXX</p>
+<p class="date">2025年4月</p>
+</header>
+<h1 data-number="1" id="概要"><span class="header-section-number">1</span> 概要</h1>
+<p>このガイドラインは、Pandoc と LaTeX テンプレートを用いて Markdown
+ファイルから PDF
+を安定して生成するための記述ルールを定めたものです。</p>
+<h1 data-number="2" id="一般設定出力時の基本オプション"><span class="header-section-number">2</span>
+一般設定（出力時の基本オプション）</h1>
+<pre><code>\texttt{pandoc Guide.md -o Guide.pdf \\
+  --template=template\_custom.latex \\
+  --pdf-engine=xelatex \\
+  --columns=120}</code></pre>
+<ul>
+<li>“–pdf-engine=xelatex”：日本語フォントに対応。</li>
+<li>“–columns=120” は自動折り返しや表幅の制御のために必要です。</li>
+</ul>
+<h1 data-number="3" id="セクション構成と自動番号付け"><span class="header-section-number">3</span> セクション構成と自動番号付け</h1>
+<p># Markdownの,|,| などを使えば、自動で LaTeX の \section, \subsection,
+\subsubsection に変換され、番号は自動で付与されます。</p>
+<pre><code>\verb|#| 第1章のタイトル
+
+\verb|##| 1.1 セクションタイトル
+
+\verb|###| 1.1.1 小見出し</code></pre>
+<p>セクション番号を手動で書かないでください（PDFで重複やズレの原因になります）。</p>
+<h1 data-number="4" id="表のルール"><span class="header-section-number">4</span> 表のルール</h1>
+<h2 data-number="4.1" id="書き方の基本"><span class="header-section-number">4.1</span> 書き方の基本</h2>
+<ul>
+<li>通常のMarkdown表記でOK。</li>
+<li>ただし、文字数に制限がある。目安は以下の通り</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>推奨1列あたりの文字数（全角）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2列</td>
+<td>~40文字</td>
+</tr>
+<tr>
+<td>3列</td>
+<td>~30文字</td>
+</tr>
+<tr>
+<td>4列</td>
+<td>~20文字</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="4.2" id="長文セルの改行方法"><span class="header-section-number">4.2</span> 長文セルの改行方法</h2>
+<p>長文セルでは \\ ではなく、LaTeXコマンド \makecell{…} を使う：</p>
+<pre><code>| 項目 | 説明                                     | \\
+|------|------------------------------------------| \\
+| 例   | \textbackslash{}makecell{これは長い文章なので\textbackslash{}\textbackslash{}改行して見やすくしています} |</code></pre>
+<p>↓出力例</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>例</td>
+<td>これは長い文章なので<br>改行して見やすくしています</td>
+</tr>
+</tbody>
+</table>
+<h1 data-number="5" id="画像挿入のルール"><span class="header-section-number">5</span> 画像挿入のルール</h1>
+<p>画像のレイアウトや大きさは テンプレート側で制御しています。
+そのため、画像を挿入したい場合は、以下をマークダウンへ書き込んでください。</p>
+<h2 data-number="5.1" id="単体画像"><span class="header-section-number">5.1</span> 単体画像</h2>
+<pre><code>\textbackslash{}SingleImage{images\textbackslash{}xxx.jpg}</code></pre>
+<p>サイズ：縦長の画像は本文高さの40%になり、横長の画像は本文幅の80%になる</p>
+<h2 data-number="5.2" id="横並び画像"><span class="header-section-number">5.2</span> 横並び画像</h2>
+<pre><code>\textbackslash{}InsertImageRow{{images\textbackslash{}img1.jpg}, {images\textbackslash{}img2.jpg}, {images\textbackslash{}img3.jpg}}</code></pre>
+<ul>
+<li>一枚だけ指定しても問題なく動作するが、出力される画像は小さくなる。</li>
+<li>最大5毎まで横に並ぶ</li>
+<li>自動で余白や画像幅が調整される</li>
+</ul>
+<h1 data-number="6" id="改行と段落のルール"><span class="header-section-number">6</span> 改行と段落のルール</h1>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 54%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>操作</th>
+<th>Markdown記法</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>段落区切り</td>
+<td>空行を挟む</td>
+<td>通常の段落区切り</td>
+</tr>
+<tr>
+<td>明示的改行</td>
+<td>\\（非推奨）</td>
+<td>表内だと効かない時がある</td>
+</tr>
+<tr>
+<td>表内改行</td>
+<td>\makecell{atextbackslash{}\b}</td>
+<td>表中の複数行対応</td>
+</tr>
+</tbody>
+</table>
+<h1 data-number="7" id="コードブロックや記号特殊文字の取り扱い"><span class="header-section-number">7</span>
+コードブロックや記号・特殊文字の取り扱い</h1>
+<h2 data-number="7.1" id="絵文字記号など"><span class="header-section-number">7.1</span> 絵文字・記号など</h2>
+<p>PDF 出力時には対応フォント（例: Segoe
+UI）に該当の文字が含まれていないと、Missing character エラーになる。</p>
+<h2 data-number="7.2" id="コードブロックの代替マクロ"><span class="header-section-number">7.2</span> コードブロックの代替マクロ</h2>
+<p>Pandoc の highlightstyle によるシンタックスハイライトが LaTeX
+でうまく機能しないため、LaTeXでコードブロックがうまく機能しないときがありました。　　
+テンプレート側のマクロ
+で対処しています。コードブロック風に仕立てたいときは、以下のように記述してください。</p>
+<pre><code>\texttt{\char92 begin\{CodeBlockBox\} \\
+（ここに書きたい内容を記述） \\
+\char92 end\{CodeBlockBox\}}</code></pre>
+<h1 data-number="8" id="禁止事項"><span class="header-section-number">8</span> 禁止事項</h1>
+<ul>
+<li><p>表の中に数式など複雑なLaTeXコマンドを直接書くこと（エラー原因になります）</p></li>
+<li><p>\section などの LaTeX
+命令をMarkdown中に直接書くこと（Pandocで二重変換してしまいます）</p></li>
+<li><p>\\ で強制改行しすぎる（表や画像と干渉してしまいます）</p></li>
+</ul>
+<h1 data-number="9" id="その他注意事項"><span class="header-section-number">9</span> その他注意事項</h1>
+<ul>
+<li><p>改ページは自動に任せましょう（\newpage は使わない）</p></li>
+<li><p>ページ内に画像が入りきらない場合、自動的に次ページに送られます</p></li>
+<li><p>できる限りテンプレート内で自動制御されるよう調整済みです</p></li>
+</ul>
+<h1 data-number="10" id="よくあるエラーと対処"><span class="header-section-number">10</span> よくあるエラーと対処</h1>
+<table>
+<thead>
+<tr>
+<th>エラー内容</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Missing number, treated as zero</td>
+<td>一列内の文字が多すぎる</td>
+</tr>
+<tr>
+<td>File ended while scanning use of</td>
+<td>“{}”の対応ミス</td>
+</tr>
+<tr>
+<td>画像が出ない</td>
+<td>パスミス or 画像ファイルの存在確認</td>
+</tr>
+<tr>
+<td>表がはみ出す</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

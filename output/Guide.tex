@@ -1,0 +1,301 @@
+\documentclass[
+  12pt,
+  a4paper,
+  oneside,
+]{article}
+
+% ---------------- パッケージ ----------------
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{xparse}
+\usepackage{pgffor}
+\usepackage{xstring}
+\usepackage{etoolbox}
+\usepackage{pgfmath}
+\usepackage{microtype}
+\usepackage{xeCJK}
+\usepackage{xfp}
+\usepackage{float}
+\usepackage{ltablex}
+\usepackage{makecell}
+\keepXColumns
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listingsutf8}  % UTF-8対応（不要なら削除可）
+
+% ---------------- 書式 ----------------
+\geometry{margin=20mm}
+\setmainfont{Segoe UI}
+\setCJKmainfont{Yu Gothic UI}
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip = 0em plus 0.1em minus 0.01em
+\fancyhead[R]{\thepage}
+\fancyfoot{}
+\sloppy
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0.5em}
+\setlength{\overfullrule}{0pt}
+
+% ---------------- 表 ----------------
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{4pt}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+
+% ---------------- セクション ----------------
+\newcommand{\secTitleWithLine}[1]{%
+  #1\\[-0.8em]
+  \noindent{\color{gray!50}\rule{\dimexpr\textwidth-1.5em}{0.4pt}}%
+}
+\titleformat{\section}
+  [hang]
+  {\Large\bfseries}
+  {\thesection}
+  {1em}
+  {\secTitleWithLine}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% ---------------- 画像マクロ ----------------
+\newcommand{\SingleImage}[1]{%
+  \par\noindent\centering
+  \includegraphics[
+    width=0.9\linewidth,
+    height=0.75\textheight,
+    keepaspectratio
+  ]{#1}
+  \par\vspace{1em}
+}
+\newcommand{\InsertImageRow}[1]{%
+  \begingroup
+  \newcount\imgcount
+  \imgcount=0
+  \foreach \x in {#1} { \advance\imgcount by 1 }
+  \noindent\centering
+  \foreach \x [count=\i from 1] in {#1} {%
+    \ifnum\imgcount=1
+      \includegraphics[
+        width=0.95\textwidth,
+        height=0.8\textheight,
+        keepaspectratio
+      ]{\x}%
+    \else
+      \ifnum\imgcount=2 \def\imgwidth{0.47\textwidth}%
+      \else\ifnum\imgcount=3 \def\imgwidth{0.31\textwidth}%
+      \else\ifnum\imgcount=4 \def\imgwidth{0.23\textwidth}%
+      \else               \def\imgwidth{0.19\textwidth}%
+      \fi\fi\fi
+      \includegraphics[
+        width=\imgwidth,
+        height=0.5\textheight,
+        keepaspectratio
+      ]{\x}%
+    \fi
+    \ifnum\i<\imgcount\hspace{0.02\linewidth}\fi
+  }%
+  \par\vspace{1em}
+  \endgroup
+}
+
+% ------------------ コードブロック風スタイル ------------------
+% コマンド例やコードスニペットを見やすく表示するための設定。
+% 背景色付きの枠で囲み、等幅フォント（\ttfamily）を使って明確に区別。
+
+
+\tcbuselibrary{listingsutf8}
+
+% 「コードブロック風」マクロの定義
+\newtcolorbox{CodeBlockBox}{
+  colback=gray!10,       % 背景色（明るい灰色）
+  colframe=gray!60,      % 枠線色（やや濃い灰色）
+  boxrule=0.3mm,         % 枠線の太さ
+  arc=1mm,               % 角の丸み
+  left=1mm, right=1mm,   % 左右の内側余白
+  top=0.5mm, bottom=0.5mm, % 上下の内側余白
+  fontupper=\ttfamily,   % 中のテキストを等幅フォントに（コードらしさを出す）
+  enhanced,              % 見た目の改善を有効にする
+  breakable              % 複数行に渡っても枠が壊れないようにする
+}
+
+% ---------------- Pandoc マクロ補完 ----------------
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
+
+% ---------------- 本文 ----------------
+\begin{document}
+\raggedbottom
+\begin{center}
+  {\huge\bfseries Markdown文書作成ガイドライン（PDF出力対応）} \par
+        \vspace{1em}
+    {\large XXXXXX} \par
+        {\normalsize 2025年4月} \par
+    \vspace{0.5em}
+  {\color{gray!70}\rule{\textwidth}{0.5pt}}\\[-0.7em]
+  {\color{gray!70}\rule{\textwidth}{0.5pt}}
+\end{center}
+\vspace{2em}
+
+\section{概要}\label{ux6982ux8981}
+
+このガイドラインは、Pandoc と LaTeX テンプレートを用いて Markdown ファイルから PDF を安定して生成するための記述ルールを定めたものです。
+
+\section{一般設定（出力時の基本オプション）}\label{ux4e00ux822cux8a2dux5b9aux51faux529bux6642ux306eux57faux672cux30aaux30d7ux30b7ux30e7ux30f3}
+
+\begin{CodeBlockBox}
+\texttt{pandoc Guide.md -o Guide.pdf \\
+  --template=template\_custom.latex \\
+  --pdf-engine=xelatex \\
+  --columns=120}
+\end{CodeBlockBox}
+
+\begin{itemize}
+\tightlist
+\item
+  ``--pdf-engine=xelatex''：日本語フォントに対応。
+\item
+  ``--columns=120'' は自動折り返しや表幅の制御のために必要です。
+\end{itemize}
+
+\section{セクション構成と自動番号付け}\label{ux30bbux30afux30b7ux30e7ux30f3ux69cbux6210ux3068ux81eaux52d5ux756aux53f7ux4ed8ux3051}
+
+\# Markdownの\verb|#|,\verb|##|\textbar,\verb|###|\textbar{} などを使えば、自動で LaTeX の \textbackslash section,
+\textbackslash subsection, \textbackslash subsubsection に変換され、番号は自動で付与されます。
+
+\begin{CodeBlockBox}
+\verb|#| 第1章のタイトル
+
+\verb|##| 1.1 セクションタイトル
+
+\verb|###| 1.1.1 小見出し
+\end{CodeBlockBox}
+
+❌ セクション番号を手動で書かないでください（PDFで重複やズレの原因になります）。
+
+\section{表のルール}\label{ux8868ux306eux30ebux30fcux30eb}
+
+\subsection{書き方の基本}\label{ux66f8ux304dux65b9ux306eux57faux672c}
+
+\begin{itemize}
+\tightlist
+\item
+  通常のMarkdown表記でOK。
+\item
+  ただし、文字数に制限がある。目安は以下の通り
+\end{itemize}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+項目 & 推奨1列あたりの文字数（全角） \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2列 & \textasciitilde40文字 \\
+3列 & \textasciitilde30文字 \\
+4列 & \textasciitilde20文字 \\
+\end{longtable}
+
+\subsection{長文セルの改行方法}\label{ux9577ux6587ux30bbux30ebux306eux6539ux884cux65b9ux6cd5}
+
+長文セルでは \textbackslash{} ではなく、LaTeXコマンド \makecell{...} を使う：
+
+\begin{CodeBlockBox}
+| 項目 | 説明                                     |
+|------|------------------------------------------|
+| 例   | \makecell{これは長い文章なので\\改行して見やすくします} |
+\end{CodeBlockBox}
+
+↓出力例 \textbar{} 項目 \textbar{} 説明 \textbar{} \textbar------\textbar------------------------------------------\textbar{} \textbar{} 例
+\textbar{} \makecell{これは長い文章なので\\改行して見やすくします} \textbar{}
+
+\section{画像挿入のルール}\label{ux753bux50cfux633fux5165ux306eux30ebux30fcux30eb}
+
+画像のレイアウトや大きさは テンプレート側で制御しています。 そのため、画像を挿入したい場合は、以下をマークダウンへ書き込んでください。 \#\#
+単体画像
+
+\begin{CodeBlockBox}
+\SingleImage{images/xxx.jpg}
+\end{CodeBlockBox}
+
+サイズ：縦長の画像は本文高さの40\%になり、横長の画像は本文幅の80\%になる
+
+\subsection{横並び画像}\label{ux6a2aux4e26ux3073ux753bux50cf}
+
+\begin{CodeBlockBox}
+\InsertImageRow{{images/img1.jpg}, {images/img2.jpg}, {images/img3.jpg}}
+\end{CodeBlockBox}
+
+\begin{itemize}
+\tightlist
+\item
+  一枚だけ指定しても問題なく動作するが、出力される画像は小さくなる。
+\item
+  最大5毎まで横に並ぶ
+\item
+  自動で余白や画像幅が調整される
+\end{itemize}
+
+\section{改行と段落のルール}\label{ux6539ux884cux3068ux6bb5ux843dux306eux30ebux30fcux30eb}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+操作 & Markdown記法 & 説明 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+段落区切り & 空行を挟む & 通常の段落区切り \\
+明示的改行 & ``\textbackslash{}''（非推奨） & 表内だと効かない時がある \\
+表内改行 & ``\makecell{a\\b}'' & 表中の複数行対応 \\
+\end{longtable}
+
+\section{禁止事項}\label{ux7981ux6b62ux4e8bux9805}
+
+\begin{itemize}
+\item
+  ❌ 表の中に数式など複雑なLaTeXコマンドを直接書くこと（エラー原因になります）
+\item
+  ❌ \textbackslash section などの LaTeX 命令をMarkdown中に直接書くこと（Pandocで二重変換）
+\item
+  ❌ \textbackslash{} で強制改行しすぎる（表や画像と干渉）
+\end{itemize}
+
+\section{その他注意事項}\label{ux305dux306eux4ed6ux6ce8ux610fux4e8bux9805}
+
+\begin{itemize}
+\item
+  改ページは自動に任せましょう（\newpage は使わない）
+\item
+  ページ内に画像が入りきらない場合、自動的に次ページに送られます
+\item
+  できる限りテンプレート内で自動制御されるよう調整済みです
+\end{itemize}
+
+\section{よくあるエラーと対処}\label{ux3088ux304fux3042ux308bux30a8ux30e9ux30fcux3068ux5bfeux51e6}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+エラー内容 & 説明 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Missing number, treated as zero & 一列内の文字が多すぎる \\
+File ended while scanning use of & ``\{\}''の対応ミス \\
+画像が出ない & パスミス or 画像ファイルの存在確認 \\
+表がはみ出す & --columns=120 設定 or \makecellで改行 \\
+\end{longtable}
+
+\end{document}

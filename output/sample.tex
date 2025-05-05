@@ -1,0 +1,198 @@
+% ---------------- DocClassの設定 ----------------
+\documentclass[
+  12pt,
+  a4paper,
+  oneside,    % 片面印刷扱いにする
+]{article}
+
+% ------------------ パッケージ ------------------
+\usepackage{xcolor}                 % 色指定用
+\usepackage{geometry}               % ページ余白設定
+\usepackage{amsmath,amssymb}        % 数式関連
+\usepackage{fontspec}               % フォント設定
+\usepackage{graphicx}               % 画像挿入
+\usepackage{hyperref}               % ハイパーリンク
+\usepackage{setspace}               % 行間指定
+\usepackage{titlesec}               % 見出しスタイル指定
+\usepackage{tabularx}               % 表の幅を自動調整する
+\usepackage{booktabs}               % 表のデザインを指定
+\usepackage{longtable}              % 表が複数ページにまたいだらヘッダー繰り返す
+\usepackage{array}                  % tabularのスタイルを定義、中央寄せや上下調整
+\usepackage{ragged2e}               % 段落の左寄せや右寄せ、両端揃え
+\usepackage{fancyhdr}               % ヘッダーとフッターの制御
+\usepackage{xparse}                 % \NewDocumentCommand を使うためのパッケージ（LaTeX3系の柔軟な引数定義が可能）
+\usepackage{pgffor}                 % ループ処理を有効にする
+\usepackage{xstring}                % LaTeX で 文字列の分割・比較・検索・置換などを行うためのパッケージ
+\usepackage{etoolbox}               % 条件分岐、カウンタ操作、CSVリスト処理
+\usepackage{pgfmath}                % LaTeX 内で数値計算
+\usepackage{microtype}              % 自動で行末の文間を微調整
+\usepackage{xeCJK}                  % 日本語対応を強化（fontspec併用可）
+\usepackage{fontspec}               % 欧文用フォント
+\usepackage{xfp}                    % 浮動小数点計算 (LaTeX3 の expl3 を内部使用)
+\usepackage{float}                  % 画像位置制御
+\usepackage[export]{adjustbox}      % graphicxと連携して動作
+
+% ------------------- 文章体裁 -------------------
+\geometry{margin=20mm}              % すべての余白を20mmに設定 細かく指定するなら\geometry{top=25mm, bottom=25mm, left=30mm, right=30mm}
+\setmainfont{Segoe UI}              % 欧州フォントをSegoe UIへ
+\setCJKmainfont{Yu Gothic UI}       % 日本語フォントをYu Gothic UIへ
+\XeTeXlinebreaklocale "ja"          % 日本語の改行処理
+\XeTeXlinebreakskip = 0em plus 0.1em minus 0.01em  % 行間詰め設定
+\fancyhead[R]{\thepage}             % 右下にページ番号
+% \fancyhead[L]{\leftmark}          % 左下にsection タイトル
+\fancyfoot{}                        % フッターを空にする
+% \renewcommand{\headrulewidth}{0pt}% ヘッダー下の線を消す
+\sloppy                             % 文章をページ内におさめさせる(改行)
+\setlength{\parindent}{1em}         % 段落の字下げ幅（標準的に1〜2文字）
+\setlength{\parskip}{0.5em}         % 段落間のスペースを追加（詰まりすぎ防止）
+\setlength{\overfullrule}{0pt}      % オーバーフル警告出さない
+
+% -------------------- 表設定 --------------------
+% 表全体のスタイル調整
+\renewcommand{\arraystretch}{1.1}         % 行の高さを少し広げる
+\setlength{\tabcolsep}{4pt}               % セル内の左右余白をやや詰める
+
+% Xカラム対応（Pandoc出力の tabularx / longtable 対応）
+\usepackage{ltablex}                      % longtable + X カラム両対応
+\keepXColumns                             % Pandocの出力する X をそのまま使う
+\newcolumntype{X}{>{\RaggedRight\arraybackslash}X}  % 折り返し左寄せX列を定義
+
+% longtable の余白調整
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+
+
+% ------------------箇条書き調整-------------------
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}} % itemsep:箇条書き行間指定、parskip:アイテム間段落余白
+
+% --------------セクション見出し設定----------------
+\newcommand{\secTitleWithLine}[1]{%
+  #1\\[-0.8em]
+  \noindent{\color{gray!50}\rule{\dimexpr\textwidth-1.5em}{0.4pt}}%
+}
+
+\titleformat{\section}
+  [hang]
+  {\Large\bfseries}
+  {\thesection}
+  {1em}
+  {\secTitleWithLine}
+
+% -----------サブセクションスタイル指定--------------
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{} % セクションタイトル文字をちょい大きく(laege)、かつ太字へ
+% bfseries:太字　、 thesubsection:見出し番号　、　文字の大きさ Large > laege 
+
+\newcommand{\SingleImage}[1]{%
+  \begingroup
+  \par\noindent\centering
+  \includegraphics[
+    width=0.8\linewidth,
+    height=0.4\textheight,
+    keepaspectratio
+  ]{#1}
+  \par\vspace{1em}
+  \endgroup
+}
+
+\newcommand{\MultiImage}[1]{%
+  \begingroup
+  \newcount\imgcount
+  \imgcount=0
+  \foreach \x in {#1} { \advance\imgcount by 1 }
+
+  \noindent\centering
+  \foreach \x [count=\i from 1] in {#1} {%
+    \ifnum\imgcount=1
+      % 1枚 → 最大限に大きく表示（本文圧迫しない範囲）
+      \includegraphics[
+        width=0.9\textwidth,
+        height=0.4\textheight,
+        keepaspectratio
+      ]{\x}%
+    \else
+      % 2枚以上 → 横並びで大きめに出す
+      \ifnum\imgcount=2 \def\imgwidth{0.48\textwidth}\def\imgheight{0.5\textheight}%
+      \else\ifnum\imgcount=3 \def\imgwidth{0.32\textwidth}\def\imgheight{0.5\textheight}%
+      \else\ifnum\imgcount=4 \def\imgwidth{0.24\textwidth}\def\imgheight{0.45\textheight}%
+      \else               \def\imgwidth{0.20\textwidth}\def\imgheight{0.4\textheight}%
+      \fi\fi\fi
+      \includegraphics[
+        width=\imgwidth,
+        height=\imgheight,
+        keepaspectratio
+      ]{\x}%
+    \fi
+    \ifnum\i<\imgcount\hspace{0.02\linewidth}\fi
+  }%
+  \par\vspace{1em}
+  \endgroup
+}
+
+\begin{document}
+\raggedbottom
+ %タイトル下に二重線を引く
+\begin{center}
+  {\huge\bfseries 圧力鍋を使った牛すじカレーの作り方} \par
+        \vspace{1em}
+    {\large BEAN} \par
+        {\normalsize 2025年4月} \par
+    % ↓ 線との間を詰める（以前の \vspace{1em} は削除）
+  \vspace{0.5em}
+  % ↓ 二重線の間隔をかなり狭く
+  {\color{gray!70}\rule{\textwidth}{0.5pt}}\\[-0.7em]
+  {\color{gray!70}\rule{\textwidth}{0.5pt}}
+\end{center}
+\vspace{2em}
+
+\section{圧力鍋を使った牛すじカレーの作り方}\label{ux5727ux529bux934bux3092ux4f7fux3063ux305fux725bux3059ux3058ux30abux30ecux30fcux306eux4f5cux308aux65b9}
+
+\subsection{材料}\label{ux6750ux6599}
+
+\begin{itemize}
+\tightlist
+\item
+  業務スーパーの冷凍牛すじ 1kg
+\item
+  長ねぎ（青い部分）、生姜
+\item
+  カレーの材料
+\end{itemize}
+
+\subsection{方法}\label{ux65b9ux6cd5}
+
+まず牛すじを水から茹でて、沸騰したら1分茹でる（加圧は不要）。その後ざるにあげ、鍋を洗う。
+次に圧力鍋へ長ねぎ・生姜・牛すじを入れる。圧力鍋の\(\textstyle\frac{2}{3}\)まで水を入れる。
+強火にかけて加圧する。加圧できたら弱火にし、20分間茹でる。
+ゆであがった牛すじは、普通にカレーの材料に使う。残っただしはカレーの水に使ったり、中華スープなどにすると美味。
+
+\subsection{画像横並びテスト}\label{ux753bux50cfux6a2aux4e26ux3073ux30c6ux30b9ux30c8}
+
+ここで画像を横並びにします：
+
+\MultiImage{{images/img1.png}, {images/img2.png}, {images/img3.png}}
+\MultiImage{{images/img1.png}}
+
+\SingleImage{images/img.jpg}
+
+続く本文\ldots{}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+表の
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+テスト
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ねむい & ねむい \\
+すごくねむい &
+ねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむいねむい \\
+\end{longtable}
+
+\end{document}
