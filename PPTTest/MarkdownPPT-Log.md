@@ -2,7 +2,7 @@
 theme : "black"
 transition : "default"
 title: Markdownによるプレゼンテーション作成ツールの比較検討
-author: あなた
+author: わたくし
 date: 2025-05-07
 ---
 
