@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Markdownによるプレゼンテーション作成ツールの比較検討</title>
+
+  <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+  <meta name="author" content="Hakim El Hattab">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/reset.css">
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/reveal.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- highlight Theme -->
+  
+  <link rel="stylesheet" href="libs/highlight.js/11.3.1/styles/monokai.min.css">
+  
+	
+		
+	<link rel="stylesheet" href="libs/reveal.js/4.3.1/plugin/chalkboard/style.css">
+	
+	
+	
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/plugin/customcontrols/style.css">
+  
+	
+
+
+
+  <!-- Revealjs Theme -->
+  
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/theme/black.css" id="theme">
+  
+  
+
+  <link rel="stylesheet" href="libs/styles/tasklist.css">
+	<link rel="stylesheet" href="libs/styles/iota.css">
+	<link rel="stylesheet" href="libs/styles/layout.css">
+
+
+  <!-- Revealjs Theme -->
+  
+
+   <!-- css list -->
+	
+
+   
+
+</head>
+
+<body>
+
+   
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      
+
+
+    
+        <section >
+            
+            <h1>はじめに</h1>
+<ul>
+<li>Markdownの可能性
+<ul>
+<li>軽量マークアップで可読性◎</li>
+<li>テキストとデザイン分離→メッセージに集中</li>
+<li>バージョン管理・共同編集に最適</li>
+</ul>
+</li>
+<li>本レポートの目的
+<ul>
+<li>CLIベースかつオフライン完結</li>
+<li>PPTX / PDF / HTML 出力</li>
+<li>図表、LaTeX数式、英日対応</li>
+<li>セキュリティ重視</li>
+</ul>
+</li>
+</ul>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1>比較対象ツール一覧</h1>
+<ol>
+<li><strong>Pandoc</strong></li>
+<li><strong>Marp</strong></li>
+<li><strong>Slidev</strong></li>
+<li><strong>Reveal.js</strong></li>
+<li><strong>md2pptx</strong></li>
+<li><strong>Slidesdown</strong></li>
+</ol>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <section>
+<h2>各ツールの特徴まとめ</h2>
+<span style="font-size: 0.8em;">  
+<table>
+<thead>
+<tr>
+<th>ツール</th>
+<th style="text-align:center">PPTX</th>
+<th style="text-align:center">PDF</th>
+<th style="text-align:center">HTML</th>
+<th style="text-align:center">CLI</th>
+<th style="text-align:center">Anime</th>
+<th style="text-align:center">Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pandoc</strong></td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">△</td>
+<td style="text-align:center">○</td>
+</tr>
+<tr>
+<td><strong>Marp</strong></td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">△</td>
+<td style="text-align:center">○</td>
+</tr>
+<tr>
+<td><strong>Slidev</strong></td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">◎</td>
+<td style="text-align:center">○</td>
+</tr>
+<tr>
+<td><strong>Reveal.js</strong></td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">△</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">△</td>
+<td style="text-align:center">◎</td>
+<td style="text-align:center">○</td>
+</tr>
+<tr>
+<td><strong>md2pptx</strong></td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">△</td>
+<td style="text-align:center">○</td>
+</tr>
+<tr>
+<td><strong>Slidesdown</strong></td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+<td style="text-align:center">○</td>
+</tr>
+</tbody>
+</table>
+<p>※Marp/SlidevのPPTXは「スライドを画像化」方式<br>
+↓各ツールの詳細は下スライドに記載<br>
+→選び方総括は横スライドに記載</p>
+</span>
+</section>
+<section>
+<h2>1. Pandoc</h2>
+<ul>
+<li><strong>メリット</strong>
+<ul>
+<li>多彩な出力形式：PPTX/PDF/HTML（Reveal, Beamer等）</li>
+<li>完全CLI＆ローカル完結→セキュア</li>
+<li>LaTeX数式埋込可</li>
+</ul>
+</li>
+<li><strong>デメリット</strong>
+<ul>
+<li>テンプレート／CSS／LaTeX知識が必要</li>
+<li>PPTX中の画像・テキスト配置に制限あり</li>
+<li>アニメーションは一覧段階表示のみ</li>
+</ul>
+</li>
+<li>所感
+<ul>
+<li>変換力が売りっぽい。</li>
+<li>テンプレートとフィルターの利用でいろいろと拡張できる</li>
+<li>そのぶんカスタムが大事になる</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<h2>2. Marp</h2>
+<ul>
+<li><strong>メリット</strong>
+<ul>
+<li>VSCode拡張でライブプレビュー◎</li>
+<li>PPTX/PDF/HTML出力</li>
+<li>MathJaxで数式対応</li>
+<li>日本人開発・日本語フォントOK</li>
+</ul>
+</li>
+<li><strong>デメリット</strong>
+<ul>
+<li>PPTXは画像貼付形式（編集制限）</li>
+<li>高度なアニメーションはカスタマイズ要</li>
+<li>CSS知識があるとデザイン幅が広がる</li>
+</ul>
+</li>
+<li>所感
+<ul>
+<li>ディレクティブ機能が優秀らしい</li>
+<li>洗練されたテーマが最初から用意されていて、CSS無しでもきれいなスライドが作れるらしい</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<h2>3. Slidev</h2>
+<ul>
+<li><strong>メリット</strong>
+<ul>
+<li>Vueコンポーネント併用でインタラクティブ</li>
+<li>Mermaid, 動的グラフなど開発者向け機能</li>
+<li>PPTX/PDFは画像貼付で一括出力</li>
+</ul>
+</li>
+<li><strong>デメリット</strong>
+<ul>
+<li>Node.js／npm 環境が必要</li>
+<li>非エンジニアには初期ハードル高め</li>
+</ul>
+</li>
+<li>所感
+<ul>
+<li>ブラウザでリアルタイム編集できるらしい</li>
+<li>Presenterモードが優秀で、 Reveal.jsより高機能とも言われるらしい</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<h2>4. Reveal.js</h2>
+<ul>
+<li><strong>メリット</strong>
+<ul>
+<li>多彩なテーマ・トランジション</li>
+<li>Auto-Animateなど高度なアニメーション</li>
+<li>動画・音声・外部ライブラリ埋込◎</li>
+</ul>
+</li>
+<li><strong>デメリット</strong>
+<ul>
+<li>HTMLフレームワークのため初期設定がやや重い</li>
+<li>直接PPTX出力× → PDFはブラウザ印刷で代替</li>
+</ul>
+</li>
+<li>所感
+<ul>
+<li>スライドを上下に増やせるのはReveal.jsのみっぽい</li>
+<li>上下で増やせるの、補足つけまくれる分脳死でスライド作れそう</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<h2>5. md2pptx</h2>
+<ul>
+<li><strong>メリット</strong>
+<ul>
+<li>PythonベースでMarkdown→PPTX直接変換</li>
+<li>オフラインで完結</li>
+<li>カスタムテンプレートが後付け可能</li>
+</ul>
+</li>
+<li><strong>デメリット</strong>
+<ul>
+<li>複雑なMarkdownの書式に弱い場合あり</li>
+<li>アニメーション機能は限定的</li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<h2>6. Slidesdown</h2>
+<ul>
+<li><strong>メリット</strong>
+<ul>
+<li>Reveal.jsエコシステムをCLIで手軽に操作</li>
+<li>Dockerオプションで完全オフライン可</li>
+</ul>
+</li>
+<li><strong>デメリット</strong>
+<ul>
+<li>PPTX直接出力×</li>
+<li>HTMLベース前提</li>
+</ul>
+</li>
+</ul>
+</section>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h2>選び方</h2>
+<ul>
+<li><strong>汎用性重視</strong> → <strong>Pandoc</strong></li>
+<li><strong>PPTX直接出力重視</strong> → <strong>md2pptx</strong></li>
+<li><strong>簡便さ＋PPTX対応</strong> → <strong>Marp</strong></li>
+<li><strong>インタラクティブ性重視</strong> → <strong>Slidev/Reveal.js</strong></li>
+</ul>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h2>CLIツールの基本コマンド例</h2>
+<pre><code class="language-bash"># Pandoc
+pandoc slides.md -o slides.pptx
+pandoc slides.md -o slides.pdf
+pandoc slides.md -t revealjs -s -o slides.html
+
+# md2pptx
+python3 md2pptx.py slides.pptx &lt; slides.md
+
+# Marp CLI
+marp slides.md --output slides.pptx
+marp slides.md --output slides.pdf
+</code></pre>
+
+            </section>
+    
+
+
+    </div>
+
+
+  </div>
+
+  <div class="line top"></div>
+  <div class="line bottom"></div>
+  <div class="line left"></div>
+  <div class="line right"></div>
+
+  <script src="libs/reveal.js/4.3.1/reveal.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/notes/notes.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/markdown/markdown.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/highlight/highlight.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/math/math.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/fullscreen/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/animate/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/animate/svg.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/Chart.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3/d3.v3.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3.patch.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3/queue.v1.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/d3/topojson.v1.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/anything/function-plot.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/customcontrols/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/embed-tweet/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/chart/chart.min.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/chart/plugin.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/verticator/verticator.js"></script>
+
+<script src="libs/reveal.js/4.3.1/plugin/zoom/zoom.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/search/search.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/menu/menu.js"></script>
+<script src="libs/reveal.js/4.3.1/plugin/chalkboard/plugin.js"></script>
+
+<!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/plugin.js"></script>  -->
+<!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/recorder.js"></script>-->
+<!--	<script src="libs/reveal.js/4.3.1/plugin/audio-slideshow/RecordRTC.js"></script>-->
+
+  
+
+<script>
+  const printPlugins = [
+      RevealNotes,
+      RevealHighlight,
+      RevealMath.MathJax3,
+      RevealAnimate,
+      RevealChalkboard, 
+			RevealEmbedTweet,
+			RevealChart,
+		];
+
+		const plugins =  [...printPlugins,
+		RevealZoom, 
+		RevealSearch, 
+				RevealMarkdown, 
+				RevealMenu, 
+				RevealFullscreen,
+				RevealAnything,
+				//RevealAudioSlideshow,
+				//RevealAudioRecorder,
+				RevealCustomControls, 
+				// poll
+				// question
+				// seminar
+				Verticator 
+				 ]
+
+
+		// Also available as an ES module, see:
+		// https://revealjs.com/initialization/
+		Reveal.initialize({
+			controls: true,
+      controlsTutorial: true,
+      controlsLayout: 'bottom-right',
+      controlsBackArrows: 'faded',
+      progress: true,
+      slideNumber: false,
+      //#showSlideNumber "all" "print" "speaker"
+      hash: true, //# hash: false,
+      //# respondToHashChanges: true,
+      //# history: false,
+      keyboard: true,
+      //#keyboardCondition: null,
+      overview: true,
+      center: true,
+      touch: true,
+      loop: false,
+      rtl: false,
+      //#navigationMode: 'default', linear grid
+      shuffle: false,
+      fragments: true,
+      fragmentInURL: false,
+      embedded: false,
+      help: true,
+      //#pause: true
+      showNotes: false,
+      autoPlayMedia: false, // TODO fix this to a nullable value
+      //#preloadIframes: null. true false
+      //#autoAnimate: true
+      //#autoAnimateMatcher: null,
+      //#autoAnimateEasing: 'ease',
+      //autoAnimateDuration: 1.0,
+      //#autoAnimateUnmatched: true
+      //#autoAnimateStyles: []
+      autoSlide: 0, // TODO fix this to a falseable value
+      autoSlideStoppable: true,
+      autoSlideMethod: '0',
+      defaultTiming: 120,
+      mouseWheel: false,
+      //#previewLinks: false
+      //#postMessage: true, // TODO : this can cause issues with the vscode api ???
+      //#postMessageEvents: false,
+      //#focusBodyOnPageVisibilityChange: true,
+      transition: 'default',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      //#pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+      //#pdfSeparateFragments: true,
+      //#pdfPageHeightOffset: -1,
+      viewDistance: 3,
+      //#mobileViewDistance: 2,
+      display: 'block',
+      //#hideInactiveCursor: true,
+      //#hideCursorTime: 5000
+
+      // Parallax Background
+      parallaxBackgroundImage: '',
+      parallaxBackgroundSize: '',
+      parallaxBackgroundHorizontal: 0,
+      parallaxBackgroundVertical: 0,
+
+      //Presentation Size
+      width: 960,
+			height: 700,
+			margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2,
+      disableLayout: false,
+
+      audio: {
+        prefix: 'audio/', // audio files are stored in the "audio" folder
+        suffix: '.ogg', // audio files have the ".ogg" ending
+        textToSpeechURL: null, // the URL to the text to speech converter
+        defaultNotes: false, // use slide notes as default for the text to speech converter
+        defaultText: false, // use slide text as default for the text to speech converter
+        advance: 0, // advance to next slide after given time in milliseconds after audio has played, use negative value to not advance
+        autoplay: false, // automatically start slideshow
+        defaultDuration: 5, // default duration in seconds if no audio is available
+        defaultAudios: true, // try to play audios with names such as audio/1.2.ogg
+        playerOpacity: 0.05, // opacity value of audio player if unfocused
+        playerStyle: 'position: fixed; bottom: 4px; left: 25%; width: 50%; height:75px; z-index: 33;', // style used for container of audio controls
+        startAtFragment: false, // when moving to a slide, start at the current fragment or at the start of the slide
+      },
+      
+      chalkboard: { // font-awesome.min.css must be available
+        //src: "chalkboard/chalkboard.json",
+        storage: "chalkboard-demo",
+      },
+      
+			customcontrols: {
+					controls: [
+      						{
+						  id: 'toggle-overview',
+						  title: 'Toggle overview (O)',
+						  icon: '<i class="fa fa-th"></i>',
+						  action: 'Reveal.toggleOverview();'
+						}
+						,
+      {
+        icon: '<i class="fa fa-pen-square"></i>',
+        title: 'Toggle chalkboard (B)',
+        action: 'RevealChalkboard.toggleChalkboard();'
+      },
+      {
+        icon: '<i class="fa fa-pen"></i>',
+        title: 'Toggle notes canvas (C)',
+        action: 'RevealChalkboard.toggleNotesCanvas();'
+      }
+      
+				]
+			},
+			chart: {
+					defaults: { 
+						color: 'lightgray', // color of labels
+						scale: { 
+							beginAtZero: true, 
+							ticks: { stepSize: 1 },
+							grid: { color: "lightgray" } , // color of grid lines
+						},
+					},
+					line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ] }, 
+					bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+					pie: { backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]},
+					radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+			},
+			math: {
+				mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+				config: 'TeX-AMS_HTML-full',
+				// pass other options into `MathJax.Hub.Config()`
+				TeX: { Macros: { RR: "{\\bf R}" } }
+				},
+				anything: [ 
+				{
+		className: "plot",
+		defaults: {width:500, height: 500, grid:true},
+		initialize: (function(container, options){ options.target = "#"+container.id; functionPlot(options) })
+	 },
+	 {
+		className: "chart",  
+		initialize: (function(container, options){ container.chart = new Chart(container.getContext("2d"), options);  })
+	 },
+	 {
+		className: "anything",
+		initialize: (function(container, options){ if (options && options.initialize) { options.initialize(container)} })
+	 },
+					],
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: (window.location.search.match(/print-pdf/gi) ? printPlugins : plugins ) 
+		});
+			
+
+
+	    // Change chalkboard theme : 
+		function changeTheme(input) {
+			var config = {};
+			config.theme = input.value;
+			Reveal.getPlugin("RevealChalkboard").configure(config);
+			input.blur();
+		}
+
+		// // Handle the message inside the webview
+        // window.addEventListener('message', event => {
+
+        //     const message = event.data; // The JSON data our extension sent
+
+        //     switch (message.command) {
+        //         case 'refactor':
+        //             Reveal.toggleHelp();
+        //     }
+        // });
+
+		if (window.location.search.match(/print-pdf-now/gi)) {
+      		setTimeout(() => {
+				window.print();
+			  }, 2500);
+			
+    }
+</script>
+
+</body>
+
+</html>
