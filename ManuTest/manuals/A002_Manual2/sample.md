@@ -23,10 +23,10 @@ date: 2025年5月
 
 ここで画像を横並びにします：
 
-\InsertImageRow{{images/img1.png},{images/img2.png},{images/img3.png}}
-\InsertImageRow{{images/img1.png}}
+\InsertImageRow{{img/img1.png},{img/img2.png},{img/img3.png}}
+\InsertImageRow{{img/img1.png}}
 
-\SingleImage{images/img.jpg}
+\SingleImage{img/img.jpg}
 
 続く本文…  
 
