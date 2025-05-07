@@ -84,7 +84,7 @@ img\...
 ```
 ※ バッチ処理は、v以降の数字が一番大きいものを最新とみなしてなされる。
 1. 夜間バッチ or 手動 convert.ps1 実行  
-output/ に A003_NewManual.html と A003_NewManual.pdf が生成される
+output/ に A003_NewManual.html と A003_NewManual.pdf が生成される。  
 htmlとpdfの旧版を残すときは、 oldversions/ にフォルダごとコピーして保存しておくこと。　　
 
 
