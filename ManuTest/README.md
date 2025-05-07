@@ -6,35 +6,35 @@
 最新版は nightly バッチで `output/` に集約され、Web 共有や社内配布に即利用できる。 
 
 ## ファイル構造
-project_root/
-├── manuals/ # 各マニュアル専用フォルダ
-│ ├── A001_Manual1/
-│ │ ├── A001_Manual1_v1.2.md # ★ 最新版 Markdown
-│ │ ├── img/ # 最新版で使う画像
-│ │ │ └── fig1.png
-│ │ └── oldversions/ # 旧バージョン収納
-│ │ │ ├── A001_Manual1_v1.0
-│ │ │ │ ├── A001_Manual1_v1.0.md
-│ │ │ │ └── img/ # 旧バージョン収納
-│ │ │ └── A001_Manual1_v1.1/ ...
-│ └── A002_Manual2/ ...
-│
-├── shared/ # 共有テンプレート・フィルタ
-│ ├── filter.lua
-│ ├── adjust_CSSRev.html
-│ └── template_custom.latex
-│
-├── output/ # ★ バッチ生成物を集中管理
-│ ├── html/ # latest 版のみ
-│ │ ├── A001_Manual1.html
-│ │ ├── A002_Manual2.html
-│ │ └── index.html # 自動生成の目次
-│ └── pdf/
-│ ├── A001_Manual1.pdf
-│ └── A002_Manual2.pdf
-│
-├── convert.ps1 # PowerShell 自動変換スクリプト
-└── README.md
+project_root/  
+├── manuals/ # 各マニュアル専用フォルダ  
+│ ├── A001_Manual1/  
+│ │ ├── A001_Manual1_v1.2.md # ★ 最新版 Markdown  
+│ │ ├── img/ # 最新版で使う画像  
+│ │ │ └── fig1.png  
+│ │ └── oldversions/ # 旧バージョン収納  
+│ │ │ ├── A001_Manual1_v1.0  
+│ │ │ │ ├── A001_Manual1_v1.0.md  
+│ │ │ │ └── img/ # 旧バージョン収納  
+│ │ │ └── A001_Manual1_v1.1/ ...  
+│ └── A002_Manual2/ ...  
+│  
+├── shared/ # 共有テンプレート・フィルタ  
+│ ├── filter.lua  
+│ ├── adjust_CSSRev.html  
+│ └── template_custom.latex  
+│  
+├── output/ # ★ バッチ生成物を集中管理  
+│ ├── html/ # latest 版のみ  
+│ │ ├── A001_Manual1.html  
+│ │ ├── A002_Manual2.html  
+│ │ └── index.html # 自動生成の目次  
+│ └── pdf/  
+│ ├── A001_Manual1.pdf  
+│ └── A002_Manual2.pdf  
+│  
+├── convert.ps1 # PowerShell 自動変換スクリプト  
+└── README.md  
 
 ### 命名規則
 | 種別 | ルール | 例 |
